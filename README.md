@@ -20,6 +20,7 @@ pipeline {
                 docker { image 'node:20.18.0-alpine3.20' }
             }
             steps {
+                input message: 'Proceed with node version ?', ok: 'proceed'
                 sh 'node --version'
             }
         }
