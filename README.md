@@ -26,3 +26,8 @@ pipeline {
     }
 }
 ```
+INPUT VALUE:
+
+```
+input message: 'Proceed with Terraform Destroy?', ok: 'Yes'
+```
