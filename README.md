@@ -32,3 +32,34 @@ INPUT VALUE:
 ```
 input message: 'Proceed with Terraform Destroy?', ok: 'Yes'
 ```
+```
+pipeline {
+    agent any
+    stages {
+        stage('Approval') {
+            steps {
+                script {
+                    def userInput = input(
+                        id: 'userApproval', message: 'Do you want to proceed?', parameters: [
+                            choice(name: 'Proceed', choices: 'Yes\nNo', description: 'Choose Yes to continue, No to stop')
+                        ]
+                    )
+                    if (userInput == 'Yes') {
+                        echo 'User chose to proceed.'
+                    } else {
+                        error 'Pipeline stopped by user choice.'
+                    }
+                }
+            }
+        }
+        stage('Next Stage') {
+            when {
+                expression { userInput == 'Yes' }
+            }
+            steps {
+                echo 'Executing the next stage...'
+            }
+        }
+    }
+}
+```
